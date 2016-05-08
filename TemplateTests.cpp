@@ -159,169 +159,169 @@ void test_iterator_smoketest(ErrorContext &ec) {
     }
     ec.result(pass);
 }
-//
-//// iterator: usage
-//void test_iterator_usage(ErrorContext &ec, unsigned int numRuns) {
-//    bool pass;
-//
-//    // Run at least once!!
-//    assert(numRuns > 0);
-//
-//    ec.DESC("--- Test - iterator - Usage ---");
-//
-//    for (int run = 0; run < numRuns; run++) {
-//
-//        ec.DESC("T=double, mutable, explicit instantiation");
-//
-//        {
-//            const size_t SIZE = 100;
-//            fixed_array<double> centenarray(SIZE);
-//            for (unsigned u = 0; u < SIZE; u++) centenarray[u] = 10.0 * u + 3.14;
-//
-//            for (fixed_array<double>::iterator it = centenarray.begin(); it != centenarray.end(); ++it) {
-//                *it = *it + 10;
-//            }
-//
-//            pass = true;
-//            unsigned u = 0;
-//            for (fixed_array<double>::iterator it = centenarray.begin(); it != centenarray.end(); ++it) {
-//                pass = pass && *it == 10.0 * (u++) + 13.14;
-//            }
-//
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("T=double, mutable, auto");
-//
-//        {
-//            const size_t SIZE = 100;
-//            fixed_array<double> centenarray(SIZE);
-//            for (unsigned u = 0; u < SIZE; u++) centenarray[u] = 10.0 * u + 3.14;
-//
-//            for (auto it = centenarray.begin(); it != centenarray.end(); ++it) {
-//                *it = *it + 10;
-//            }
-//
-//            pass = true;
-//            unsigned u = 0;
-//            for (auto it = centenarray.begin(); it != centenarray.end(); ++it) {
-//                pass = pass && *it == 10.0 * (u++) + 13.14;
-//            }
-//
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("T=double, const, explicit instantiation");
-//
-//        {
-//            const fixed_array<double> elevensies =
-//                    {3.14, 13.14, 23.14, 33.14, 43.14, 53.14, 63.14, 73.14, 83.14, 93.14, 103.14};
-//
-//            pass = true;
-//            unsigned u = 0;
-//            for (fixed_array<double>::const_iterator it = elevensies.begin(); it != elevensies.end(); ++it) {
-//                pass = pass && *it == 10.0 * (u++) + 3.14;
-//            }
-//
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("T=double, const, auto");
-//
-//        {
-//            const fixed_array<double> elevensies =
-//                    {3.14, 13.14, 23.14, 33.14, 43.14, 53.14, 63.14, 73.14, 83.14, 93.14, 103.14};
-//
-//            pass = true;
-//            unsigned u = 0;
-//            for (auto it = elevensies.begin(); it != elevensies.end(); ++it) {
-//                pass = pass && *it == 10.0 * (u++) + 3.14;
-//            }
-//
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("compare with vector");
-//
-//        {
-//            const size_t SIZE = 100;
-//            fixed_array<unsigned> mockarray(SIZE); // note: uninitialized
-//
-//            // copy the values
-//            std::vector<unsigned> vectory;
-//            std::copy(mockarray.begin(), mockarray.end(), std::back_inserter(vectory));
-//
-//            // compare
-//            pass = true;
-//            unsigned u = 0;
-//            for (auto mockelem: mockarray) {
-//                pass = pass && mockelem == vectory[u++];
-//            }
-//
-//            // compare
-//            u = 0;
-//            for (auto vecelem: vectory) {
-//                pass = pass && mockarray[u++] == vecelem;
-//            }
-//
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("prefix vs postfix");
-//
-//        {
-//            const size_t SIZE = 100;
-//            fixed_array<unsigned> mockarray(SIZE);
-//            for (auto &mockelem: mockarray) mockelem = 5;
-//
-//            // test prefix
-//            auto it = mockarray.begin();
-//            auto last = mockarray.begin();
-//            for (unsigned u = 0; u < SIZE - 1; u++) last++;
-//            do {
-//                *(++it) = 3;
-//            } while (it != last);
-//
-//            pass = mockarray[0] == 5;
-//
-//            // test postfix
-//            mockarray[0] = 3;
-//            mockarray[SIZE - 1] = 7;
-//
-//            it = mockarray.begin();
-//            last = mockarray.begin();
-//            for (unsigned u = 0; u < SIZE - 1; u++) last++;
-//            while (it != last) {
-//                pass = pass && *(it++) == 3;
-//            }
-//
-//            ec.result(pass);
-//        }
-//
-//        ec.DESC("Widgets");
-//
-//        {
-//            class Widget {
-//                unsigned __id;
-//            public:
-//                Widget() {}
-//                void setId(unsigned id) { __id = id; }
-//                unsigned getId() const { return __id; }
-//            };
-//
-//            const size_t SIZE = 10;
-//            fixed_array<Widget> figets(SIZE);
-//
-//            unsigned u = 0;
-//            for (auto it=figets.begin(); it != figets.end(); ++it)
-//                it->setId(u);
-//
-//            pass = true;
-//            u = 0;
-//            for (auto it=figets.begin(); it != figets.end(); ++it)
-//                pass = pass && it->getId() == u;
-//
-//            ec.result(pass);
-//        }
-//    }
-//}
+
+// iterator: usage
+void test_iterator_usage(ErrorContext &ec, unsigned int numRuns) {
+    bool pass;
+
+    // Run at least once!!
+    assert(numRuns > 0);
+
+    ec.DESC("--- Test - iterator - Usage ---");
+
+    for (int run = 0; run < numRuns; run++) {
+
+        ec.DESC("T=double, mutable, explicit instantiation");
+
+        {
+            const size_t SIZE = 100;
+            fixed_array<double> centenarray(SIZE);
+            for (unsigned u = 0; u < SIZE; u++) centenarray[u] = 10.0 * u + 3.14;
+
+            for (fixed_array<double>::iterator it = centenarray.begin(); it != centenarray.end(); ++it) {
+                *it = *it + 10;
+            }
+
+            pass = true;
+            unsigned u = 0;
+            for (fixed_array<double>::iterator it = centenarray.begin(); it != centenarray.end(); ++it) {
+                pass = pass && *it == 10.0 * (u++) + 13.14;
+            }
+
+            ec.result(pass);
+        }
+
+        ec.DESC("T=double, mutable, auto");
+
+        {
+            const size_t SIZE = 100;
+            fixed_array<double> centenarray(SIZE);
+            for (unsigned u = 0; u < SIZE; u++) centenarray[u] = 10.0 * u + 3.14;
+
+            for (auto it = centenarray.begin(); it != centenarray.end(); ++it) {
+                *it = *it + 10;
+            }
+
+            pass = true;
+            unsigned u = 0;
+            for (auto it = centenarray.begin(); it != centenarray.end(); ++it) {
+                pass = pass && *it == 10.0 * (u++) + 13.14;
+            }
+
+            ec.result(pass);
+        }
+
+        ec.DESC("T=double, const, explicit instantiation");
+
+        {
+            const fixed_array<double> elevensies =
+                    {3.14, 13.14, 23.14, 33.14, 43.14, 53.14, 63.14, 73.14, 83.14, 93.14, 103.14};
+
+            pass = true;
+            unsigned u = 0;
+            for (fixed_array<double>::const_iterator it = elevensies.begin(); it != elevensies.end(); ++it) {
+                pass = pass && *it == 10.0 * (u++) + 3.14;
+            }
+
+            ec.result(pass);
+        }
+
+        ec.DESC("T=double, const, auto");
+
+        {
+            const fixed_array<double> elevensies =
+                    {3.14, 13.14, 23.14, 33.14, 43.14, 53.14, 63.14, 73.14, 83.14, 93.14, 103.14};
+
+            pass = true;
+            unsigned u = 0;
+            for (auto it = elevensies.begin(); it != elevensies.end(); ++it) {
+                pass = pass && *it == 10.0 * (u++) + 3.14;
+            }
+
+            ec.result(pass);
+        }
+
+        ec.DESC("compare with vector");
+
+        {
+            const size_t SIZE = 100;
+            fixed_array<unsigned> mockarray(SIZE); // note: uninitialized
+
+            // copy the values
+            std::vector<unsigned> vectory;
+            std::copy(mockarray.begin(), mockarray.end(), std::back_inserter(vectory));
+
+            // compare
+            pass = true;
+            unsigned u = 0;
+            for (auto mockelem: mockarray) {
+                pass = pass && mockelem == vectory[u++];
+            }
+
+            // compare
+            u = 0;
+            for (auto vecelem: vectory) {
+                pass = pass && mockarray[u++] == vecelem;
+            }
+
+            ec.result(pass);
+        }
+
+        ec.DESC("prefix vs postfix");
+
+        {
+            const size_t SIZE = 100;
+            fixed_array<unsigned> mockarray(SIZE);
+            for (auto &mockelem: mockarray) mockelem = 5;
+
+            // test prefix
+            auto it = mockarray.begin();
+            auto last = mockarray.begin();
+            for (unsigned u = 0; u < SIZE - 1; u++) last++;
+            do {
+                *(++it) = 3;
+            } while (it != last);
+
+            pass = mockarray[0] == 5;
+
+            // test postfix
+            mockarray[0] = 3;
+            mockarray[SIZE - 1] = 7;
+
+            it = mockarray.begin();
+            last = mockarray.begin();
+            for (unsigned u = 0; u < SIZE - 1; u++) last++;
+            while (it != last) {
+                pass = pass && *(it++) == 3;
+            }
+
+            ec.result(pass);
+        }
+
+        ec.DESC("Widgets");
+
+        {
+            class Widget {
+                unsigned __id;
+            public:
+                Widget() {}
+                void setId(unsigned id) { __id = id; }
+                unsigned getId() const { return __id; }
+            };
+
+            const size_t SIZE = 10;
+            fixed_array<Widget> figets(SIZE);
+
+            unsigned u = 0;
+            for (auto it=figets.begin(); it != figets.end(); ++it)
+                it->setId(u);
+
+            pass = true;
+            u = 0;
+            for (auto it=figets.begin(); it != figets.end(); ++it)
+                pass = pass && it->getId() == u;
+
+            ec.result(pass);
+        }
+    }
+}

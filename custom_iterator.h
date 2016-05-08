@@ -28,6 +28,7 @@ namespace CS2312 {
 
         public:
 
+            // different type definitions
             typedef iterator self_type;
             typedef T value_type;
             typedef T& reference;
