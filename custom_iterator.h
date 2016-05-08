@@ -1,6 +1,6 @@
 //
-// Created by Ivo Georgiev on 5/3/16.
-//
+// Quang Dang
+// 5/7/16
 
 #ifndef UCD_CSCI2312_PA5_IMPL_CUSTOM_ITERATOR_H
 #define UCD_CSCI2312_PA5_IMPL_CUSTOM_ITERATOR_H
@@ -35,18 +35,33 @@ namespace CS2312 {
             typedef std::forward_iterator_tag iterator_category;
             typedef size_type difference_type;
 
-            iterator(pointer ptr);
-            self_type operator++();
-            self_type operator++(int junk);
-            reference operator*();
-            pointer operator->();
-            bool operator==(const self_type& rhs) const;
-            bool operator!=(const self_type& rhs) const;
+            iterator(pointer ptr) {
+                __ptr = ptr;
+            };
+            self_type operator++() {
+                __ptr++;
+                return *this;
+            };
+            self_type operator++(int junk) {
+                self_type type = *this;
+                __ptr++;
+                return type;
+            };
+            reference operator*() {
+                return *__ptr;
+            };
+            pointer operator->() {
+                return __ptr;
+            };
+            bool operator==(const self_type& rhs) const {
+                return __ptr == rhs.__ptr;
+            };
+            bool operator!=(const self_type& rhs) const {
+                return __ptr != rhs.__ptr;
+            };
 
         private:
-
             pointer __ptr;
-
         };
 
         class const_iterator {
@@ -60,40 +75,88 @@ namespace CS2312 {
             typedef std::forward_iterator_tag iterator_category;
             typedef size_type difference_type;
 
-            const_iterator(pointer ptr);
-            self_type operator++();
-            self_type operator++(int junk);
-            const value_type& operator*() const;
-            const value_type* operator->() const;
-            bool operator==(const self_type& rhs) const;
-            bool operator!=(const self_type& rhs) const;
+            const_iterator(pointer ptr) {
+                __ptr = ptr;
+            };
+
+            self_type operator++() {
+                __ptr++;
+                return *this;
+            };
+
+            self_type operator++(int junk) {
+                self_type type = *this;
+                __ptr++;
+                return type;
+            };
+
+            const value_type& operator*() const {
+                return *__ptr;
+            };
+
+            const value_type* operator->() const {
+                return __ptr;
+            };
+
+            bool operator==(const self_type& rhs) const {
+                return (__ptr == rhs.__ptr);
+            };
+
+            bool operator!=(const self_type& rhs) const {
+                return (__ptr != rhs.__ptr);
+            };
 
         private:
-
             pointer __ptr;
+        };
+
+        fixed_array(size_type size){
+            __size = size;
+            __data = new T[__size];                     // sets new array with type T
+        };
+
+        fixed_array(std::initializer_list<T> list) {
+            std::vector<T> mov(list);
+            __size = mov.size();
+            __data = new T[__size];
+
+            for (int i = 0; i < mov.size(); i++) {
+                __data[i] = mov[i];
+            }
 
         };
 
+        ~fixed_array() {                                // destructor deletes new array
+            delete [] __data;
+        };
 
-        fixed_array(size_type size);
+        size_type size() const {                        // returns size or array
+            return __size;
+        };
 
-        fixed_array(std::initializer_list<T> list);
+        T& operator[](size_type index) {                // returns position of data
+            return __data[index];
+        };
 
-        ~fixed_array();
+        const T& operator[](size_type index) const {
+            return __data[index];
+        };
 
-        size_type size() const;
+        iterator begin() {
+            return iterator(__data);
+        };
 
-        T& operator[](size_type index);
+        iterator end() {
+            return iterator(__data + __size);
+        };
 
-        const T& operator[](size_type index) const;
+        const_iterator begin() const {
+            return const_iterator(__data);
+        };
 
-        iterator begin();
-
-        iterator end();
-
-        const_iterator begin() const;
-
-        const_iterator end() const;
+        const_iterator end() const {
+            return const_iterator(__data + __size);
+        };
 
     private:
 
